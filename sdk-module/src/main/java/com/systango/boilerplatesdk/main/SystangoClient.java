@@ -1,6 +1,6 @@
 package com.systango.boilerplatesdk.main;
 
-import com.systango.boilerplatesdk.listener.OnFeature1ResponseListener;
+import com.systango.boilerplatesdk.listener.Feature1ResponseListener;
 
 /**
  * Created by Mohit Rajput on 3/12/18.
@@ -8,5 +8,5 @@ import com.systango.boilerplatesdk.listener.OnFeature1ResponseListener;
  */
 
 interface SystangoClient {
-    void feature1Method(String fieldName, OnFeature1ResponseListener onFeature1ResponseListener);
+    void feature1Method(String fieldName, Feature1ResponseListener feature1ResponseListener);
 }

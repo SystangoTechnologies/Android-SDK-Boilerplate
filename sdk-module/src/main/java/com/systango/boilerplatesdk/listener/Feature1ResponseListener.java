@@ -7,6 +7,6 @@ import com.systango.boilerplatesdk.network.response.SampleResponse;
  * Callback of feature 1 method
  */
 
-public interface OnFeature1ResponseListener {
+public interface Feature1ResponseListener {
     void onFeature1Response(SampleResponse sampleResponse);
 }

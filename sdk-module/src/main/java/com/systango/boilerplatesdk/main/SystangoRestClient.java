@@ -1,11 +1,9 @@
 package com.systango.boilerplatesdk.main;
 
-import com.systango.boilerplatesdk.listener.OnFeature1ResponseListener;
+import com.systango.boilerplatesdk.listener.Feature1ResponseListener;
 import com.systango.boilerplatesdk.network.ApiClientImpl;
 import com.systango.boilerplatesdk.network.BaseResponseCallback;
-import com.systango.boilerplatesdk.network.interfaces.UrlPathKey;
 import com.systango.boilerplatesdk.network.request.SampleRequest;
-import com.systango.boilerplatesdk.network.response.SampleResponse;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -17,7 +15,7 @@ import retrofit2.Response;
 
 public class SystangoRestClient implements SystangoClient {
     private String apiKey;
-    private OnFeature1ResponseListener onFeature1ResponseListener;
+    private ResponseHandler responseHandler = new ResponseHandler();
     private BaseResponseCallback baseResponseCallback = new BaseResponseCallback() {
         @Override
         public void success(Call call, Response response) {
@@ -32,9 +30,7 @@ public class SystangoRestClient implements SystangoClient {
         @Override
         public void commonCallback(Call call, Response response, Throwable throwable) {
             String apiUrl = call.request().url().toString();
-            if (apiUrl.contains(UrlPathKey.POST_API_URL)) {
-                onFeature1Response(response, throwable);
-            }
+            responseHandler.handleResponse(apiUrl, response, throwable);
         }
     };
 
@@ -43,22 +39,10 @@ public class SystangoRestClient implements SystangoClient {
     }
 
     @Override
-    public void feature1Method(String fieldName, OnFeature1ResponseListener onFeature1ResponseListener) {
-        this.onFeature1ResponseListener = onFeature1ResponseListener;
+    public void feature1Method(String fieldName, Feature1ResponseListener feature1ResponseListener) {
+        responseHandler.setFeature1ResponseListener(feature1ResponseListener);
         SampleRequest sampleRequest = new SampleRequest();
         sampleRequest.setFieldName(fieldName);
         ApiClientImpl.getApiClientImpl().getCommonApiInterface().postApiMethod(apiKey, sampleRequest).enqueue(baseResponseCallback);
-    }
-
-    private void onFeature1Response(Response response, Throwable throwable) {
-        SampleResponse sampleResponse;
-        if (throwable != null) {
-            sampleResponse = new SampleResponse();
-            sampleResponse.setError(throwable.getMessage());
-        } else {
-            sampleResponse = (SampleResponse) response.body();
-        }
-        if (onFeature1ResponseListener != null)
-            onFeature1ResponseListener.onFeature1Response(sampleResponse);
     }
 }

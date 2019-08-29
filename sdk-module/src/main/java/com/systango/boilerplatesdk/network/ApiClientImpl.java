@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -50,26 +49,21 @@ public class ApiClientImpl implements ApiClient {
     }
 
     private OkHttpClient createOkHttpClient(ClientType clientType) {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        return new OkHttpClient.Builder()
                 .connectTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
-                .addInterceptor(interceptor)
                 .readTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .addInterceptor(getInterceptor(clientType)).build();
-        return okHttpClient;
     }
 
     private Retrofit createRetrofitInstance(ClientType clientType) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .baseUrl(getApiUrl(clientType))
                 .client(createOkHttpClient(clientType))
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-        return retrofit;
     }
 
     private String getApiUrl(ClientType clientType) {
