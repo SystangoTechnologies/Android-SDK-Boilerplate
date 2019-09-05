@@ -31,3 +31,5 @@ where `value1` is the parameter from user and `this` is the callback
         }
     }
 ```
+
+The example of SDK usage is demonstrated in [ExampleActivity](https://github.com/SystangoTechnologies/Android-SDK-Boilerplate/blob/master/app/src/main/java/com/systango/boilerplate/activity/ExampleActivity.java).
