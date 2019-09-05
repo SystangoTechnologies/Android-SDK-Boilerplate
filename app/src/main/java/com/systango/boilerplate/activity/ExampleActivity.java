@@ -9,12 +9,12 @@ import com.systango.boilerplatesdk.listener.Feature1ResponseListener;
 import com.systango.boilerplatesdk.main.SystangoRestClient;
 import com.systango.boilerplatesdk.network.response.SampleResponse;
 
-public class MainActivity extends AppCompatActivity implements Feature1ResponseListener {
+public class ExampleActivity extends AppCompatActivity implements Feature1ResponseListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_example);
         init();
     }
 
